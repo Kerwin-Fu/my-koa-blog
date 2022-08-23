@@ -16,5 +16,7 @@ router.post('/api/user/image/upload', uploadCtrl.uploadImage)
 router.post('/api/user/article', articleCtrl.create)
 router.get('/api/user/articles', articleCtrl.list)
 router.get('/api/user/articles/:id', articleCtrl.detail)
+router.delete('/api/user/articles/:id', articleCtrl.remove)
+router.put('/api/user/articles/:id', articleCtrl.update)   
 
 module.exports = router

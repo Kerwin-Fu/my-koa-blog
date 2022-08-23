@@ -1,7 +1,9 @@
 const {
   createArticle,
   listArticles,
-  getArticleById
+  getArticleById,
+  removeArticle,
+  updateArticle
 } = require('../service/article')
 
 module.exports = {
@@ -40,6 +42,36 @@ module.exports = {
       code: 0,
       message: '文章获取成功',
       data: result
+    }
+  },
+
+  async remove(ctx) {
+    const id = ctx.params.id
+
+    await removeArticle(ctx,id)
+
+    ctx.body = {
+      code: 0,
+      message: '删除文章成功',
+      data: true
+    }
+  },
+
+  async update(ctx) {
+    ctx.verifyParams({
+      category: 'string',
+      title: 'string',
+      summary: 'string',
+      content: 'string'
+    })
+    const id = ctx.params.id
+
+    await updateArticle(ctx,id,ctx.request.body)
+
+    ctx.body = {
+      code: 0,
+      message: '修改文章成功',
+      data: true
     }
   }
 }
