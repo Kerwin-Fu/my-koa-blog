@@ -39,13 +39,13 @@ app.use(
     }
   })
 )
-// app.use(
-//   koaJwt({
-//     secret: config.jwt.secret
-//   }).unless({
-//     path: [/^\/api\/(?!user)/]
-//   })
-// )
+app.use(
+  koaJwt({
+    secret: config.jwt.secret
+  }).unless({
+    path: [/^\/api\/(?!user)/]
+  })
+)
 app.use(mongoMiddleware())
 app.use(router.routes())
 app.use(router.allowedMethods())
