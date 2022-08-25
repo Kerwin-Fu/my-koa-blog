@@ -99,7 +99,7 @@ async function doLogin(ctx, loginInfo) {
 
   // 生成 JWT Token
   const token = jwt.sign({
-    suv: userInDB._id.toString(),
+    sub: userInDB._id.toString(),
     username
   },config.jwt.secret,{
     expiresIn: '36000s'

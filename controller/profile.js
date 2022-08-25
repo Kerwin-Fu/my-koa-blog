@@ -1,5 +1,5 @@
 const {
-  getCurrentUserProfil,
+  getCurrentUserProfile,
   updateProfileBaseInfo,
   updateProfilePassword,
   updateProfileAvatar

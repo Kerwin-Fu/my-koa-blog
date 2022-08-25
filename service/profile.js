@@ -1,6 +1,7 @@
 const { ObjectId } = require('mongodb')
 const { hash, compare } = require('bcrypt')
 async function getCurrentUserProfile(ctx) {
+  console.log(ctx.state)
   const currentUserId = ObjectId(ctx.state.user.sub)
   const userColl = ctx.mongoClient.db().collection('users')
 
