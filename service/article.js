@@ -50,11 +50,11 @@ async function listArticles(ctx, params) {
     }
   }
 
-  const articleColl = ctx.mongodbClient.db().collection('articles')
-  const total = await articleColl.countDocument(filter)
+  const articleColl = ctx.mongoClient.db().collection('articles')
+  const total = await articleColl.countDocuments(filter)
 
   const items = await articleColl
-    .aggregete([
+    .aggregate([
       { $match: filter },
       { $sort: { createAt: -1 } },
       { $skip: (pageNo - 1) * pageSize },
