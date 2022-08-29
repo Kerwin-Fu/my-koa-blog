@@ -8,7 +8,7 @@ async function createArticle(ctx, articleInfo) {
   // 制作一张封面
   const thumbnail = content.match(/<img\s(.*?)\s?src="(.*?)"/)?.[2]
 
-  const articleColl = ctx.mongodb.db().collection('articles')
+  const articleColl = ctx.mongoClient.db().collection('articles')
   const result = await articleColl.insertOne({
     ownerId: currentUserId,
     categoryId: categoryId,
@@ -88,12 +88,12 @@ async function listArticles(ctx, params) {
   }
 }
 
-async function getArticleById(ctx,id) {
+async function getArticleById(ctx, id) {
   const articleColl = ctx.mongoClient.db().collection('articles')
-  return articleColl.findOne({_id: ObjectId(id)})
+  return articleColl.findOne({ _id: ObjectId(id) })
 }
 
-async function removeArticle(ctx,id) {
+async function removeArticle(ctx, id) {
   const currentUserId = ObjectId(ctx.state.user.sub)
 
   const articleColl = ctx.mongoClient.db().collection('article')
@@ -103,11 +103,14 @@ async function removeArticle(ctx,id) {
   })
 
   if (result.deleteCount === 0) {
-    return ctx.throw({code: 10203, message: '要删除的文章不存在，或当前用户无权删除！'})
+    return ctx.throw({
+      code: 10203,
+      message: '要删除的文章不存在，或当前用户无权删除！'
+    })
   }
- }
+}
 
- async function updateArticle(ctx,id,articleInfo) {
+async function updateArticle(ctx, id, articleInfo) {
   const currentUserId = ObjectId(ctx.state.user.sub)
   const categoryId = ObjectId(articleInfo.categoryId)
   const title = articleInfo.title
@@ -116,20 +119,30 @@ async function removeArticle(ctx,id) {
 
   const thumbnail = content.match(/<img\s(.*?)\s?src="(.*?)"/)?.[2]
 
-  const articleColl = ctx.mongoClient.db().collection('article')
-  const result = await crtickeColl.updateOne({
-    _id: ObjectId(id),
-    ownerId: currentUserId
-  },{
-    $set: {
-      category,
-      title,
-      summary,
-      content,
-      thumbnail,
-      updateAt: new Date()
+  const articleColl = ctx.mongoClient.db().collection('articles')
+  const result = await articleColl.updateOne(
+    {
+      _id: ObjectId(id),
+      ownerId: currentUserId
+    },
+    {
+      $set: {
+        categoryId,
+        title,
+        summary,
+        content,
+        thumbnail,
+        updateAt: new Date()
+      }
     }
-  })
+  )
+
+  if (result.modifiedCount === 0) {
+    return ctx.throw({
+      code: 10202,
+      message: '要修改的文章不存在，或当前用户无权限修改！'
+    })
+  }
 }
 module.exports = {
   createArticle,

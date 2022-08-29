@@ -12,7 +12,7 @@ module.exports = {
       categoryId: 'string',
       title: 'string',
       summary: 'string',
-      content: string
+      content: 'string'
     })
 
     await createArticle(ctx, ctx.request.body)
@@ -58,8 +58,9 @@ module.exports = {
   },
 
   async update(ctx) {
+    console.log(ctx.params)
     ctx.verifyParams({
-      category: 'string',
+      categoryId: 'string',
       title: 'string',
       summary: 'string',
       content: 'string'

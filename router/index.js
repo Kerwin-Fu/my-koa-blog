@@ -15,7 +15,7 @@ router.post('/api/login', authCtrl.login)
 router.get('/api/categories', categoriesCtrl.list)
 router.post('/api/user/image/upload', uploadCtrl.uploadImage)
 
-router.post('/api/user/article', articleCtrl.create)
+router.post('/api/user/articles', articleCtrl.create)
 router.get('/api/user/articles', articleCtrl.list)
 router.get('/api/user/articles/:id', articleCtrl.detail)
 router.delete('/api/user/articles/:id', articleCtrl.remove)
