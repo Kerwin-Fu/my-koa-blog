@@ -1,8 +1,8 @@
 module.exports = {
   async uploadImage(ctx) {
     const file = ctx.request.files.file
-    console.log(file)
-    const location = file.filepath.replace('static', '')
+
+    const location = file.path.replace('static', '')
 
     ctx.body = {
       code: 0,
