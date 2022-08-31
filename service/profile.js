@@ -33,11 +33,13 @@ async function updateProfilePassword(ctx, params) {
   const currentUserId = ObjectId(ctx.state.user.sub)
   const oldPassword = params.oldPassword
   const newPassword = params.newPassword
+  console.log(params)
 
   const userColl = ctx.mongoClient.db().collection('users')
-  const user = userColl.findOne({ _id: currentUserId })
+  const user = await userColl.findOne({ _id: currentUserId })
+  console.log(user)
 
-  const isValidOldPassword = await campare(oldPassword, user.password)
+  const isValidOldPassword = await compare(oldPassword, user.password)
   if (!isValidOldPassword) {
     return ctx.throw({
       code: 10302,

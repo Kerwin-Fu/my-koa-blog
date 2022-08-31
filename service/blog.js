@@ -13,10 +13,10 @@ async function listArticleByCategory(ctx, params) {
     }
   }
 
-  const aritcleColl = ctx.mongoCilent.db().collection('articles')
+  const aritcleColl = ctx.mongoClient.db().collection('articles')
   const total = await aritcleColl.countDocuments(filter)
   const items = await aritcleColl
-    .aggergate([
+    .aggregate([
       { $match: filter },
       { $sort: { cteateAt: -1 } },
       { $skip: (pageNo - 1) * pageSize },
@@ -60,7 +60,7 @@ async function listArticleByCategory(ctx, params) {
 }
 
 async function getArticleDetail(ctx, id) {
-  const articleColl = ctx.mongoCilent.db().collection('articles')
+  const articleColl = ctx.mongoClient.db().collection('articles')
   const items = await articleColl
     .aggregate([
       // 过滤条件
@@ -100,7 +100,7 @@ async function getArticleDetail(ctx, id) {
     ])
     .toArray()
 
-  return item[0]
+  return items[0]
 }
 
 module.exports = {

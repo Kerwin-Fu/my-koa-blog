@@ -96,7 +96,7 @@ async function getArticleById(ctx, id) {
 async function removeArticle(ctx, id) {
   const currentUserId = ObjectId(ctx.state.user.sub)
 
-  const articleColl = ctx.mongoClient.db().collection('article')
+  const articleColl = ctx.mongoClient.db().collection('articles')
   const result = await articleColl.deleteOne({
     _id: ObjectId(id),
     ownerId: currentUserId
